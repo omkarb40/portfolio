@@ -1,44 +1,69 @@
+Omkar Badadale - Data Science Portfolio
+=========================================
+
+Portfolio Overview
+------------------
+This is a professional portfolio website showcasing data science, machine learning, 
+and cloud solutions expertise. The portfolio highlights:
+
+- Professional experience as a Data Scientist, Senior Data Analyst, and ML Engineer
+- Machine learning projects including NLP, computer vision, and time-series forecasting
+- Technical skills in Python, SQL, AWS, deep learning, and data visualization
+- ESG analytics and sustainable business intelligence research
+
 Directory Structure
 -------------------
-css\              - Stylesheets CSS files for the template.
-images\           - Images used in template.
-scripts\          - JavaScript used in the template.
-styles\           - SCSS source files for stylesheets CSS. Available in Purchased versions only.
-favicon.ico       - Favicon placeholder provided for the template.
-index.html        - Main HTML page to open the template in browser.
-*.html            - Additional HTML pages (if any).
-LICENSE-*.txt     - License file as per your downloaded variant.
+css/               - Stylesheets CSS files for the template.
+images/            - Portfolio images, avatars, and project images.
+scripts/           - JavaScript libraries and functionality.
+favicon.ico        - Website favicon.
+index.html         - Main portfolio page.
+LICENSE-*.txt      - License file as per the downloaded variant.
 
-How to Edit the template
-------------------------
+How to Edit the Portfolio
+--------------------------
 
-1. Editing Content in template
+1. Editing Content
 
-To edit the content open the corresponding *.html files and open them
-in an editor such as VSCode or Notepad++.
-Search for the content you want to change and edit it to the text you want.
-Save the file and reopen HTML file in browser to see the changes.
+Open index.html in VSCode or your preferred code editor.
+Key sections to edit:
+  - About Section: Search for "Hello! I'm Omkar Badadale"
+  - Experience Cards: Look for job titles (Graduate Researcher, Senior Data Analyst, Intern)
+  - Projects Section: Update project cards with GitHub links
+  - Contact Form: Update the Formspree form ID if needed
+  - Social Links: Update LinkedIn, GitHub, and other social media URLs
 
-2. Editing Styles of template
+2. Updating Images
 
-The main style is present in css\main.css which you can edit.
-You must know how to edit CSS files to do this.
-If you have purchased any of the premium version then you will also get
-SCSS source files which generates all the styles of the template.
-You can use these SCSS files to make your changes and regenerate CSS.
+Replace images in the images/ folder:
+  - images/avatar.jpg - Profile picture
+  - images/portfolio/ - Project preview images
+  - images/illustrations/ - SVG graphics
 
-3. Changing Images
+3. Editing Styles
 
-You can change images inside the images\ folder.
-Make sure to name the file same as the original file.
-If you wish to change the name of the image file then you must
-also make corresponding change in the HTML file which refer to that image.
+Main stylesheet is css/main.css
+Bootstrap framework is used via css/bootstrap.min.css
+Font Awesome icons are in css/font-awesome/
 
-How to use the template
------------------------
-Upload the contents to your webserver.
-index.html must be in the main (root) folder of your webserver.
-Do not change the name of the template folders or files unless you know
-what you are doing and are changing the names in HTML files too.
-For webhosting, you can go with https://templateflip.com/go/hosting for easy FTP file uploads.
+How to Deploy
+-------------
+1. Local Testing:
+   python3 -m http.server 8000
+   Open http://localhost:8000 in browser
+
+2. Push to GitHub:
+   git add .
+   git commit -m "Update portfolio"
+   git push origin main
+
+3. Deploy to Web Hosting:
+   Upload all files to your webserver root directory.
+   index.html must be in the main folder.
+   For hosting, consider https://templateflip.com/go/hosting or GitHub Pages.
+
+Template Credit
+---------------
+Template designed by TemplateFlip - https://templateflip.com/
+Customized and personalized for data science portfolio.
 
