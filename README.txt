@@ -8,7 +8,7 @@ and cloud solutions expertise. The portfolio highlights:
 
 - Professional experience as a Data Scientist, Senior Data Analyst, and ML Engineer
 - Machine learning projects including NLP, computer vision, and time-series forecasting
-- Technical skills in Python, SQL, AWS, deep learning, and data visualization
+- Technical skills in Python, SQL, cloud tools (AWS/Azure), deep learning, and data visualization
 - ESG analytics and sustainable business intelligence research
 
 Directory Structure
