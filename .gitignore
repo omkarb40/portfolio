@@ -1,0 +1,4 @@
+.DS_Store
+node_modules/
+portfolio-app/dist/
+_to_delete/
