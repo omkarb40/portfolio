@@ -21,9 +21,11 @@ export default function Hero() {
     <header className="hero" id="top">
       <HeroField onStats={onStats} />
       <div className="wrap hero-inner">
-        <motion.p className="hero-name" initial="hidden" animate="show" variants={fade} custom={0.05}>
-          Omkar Badadale, data scientist
-        </motion.p>
+        <motion.div className="hero-id" initial="hidden" animate="show" variants={fade} custom={0.05}>
+          <span className="hero-id-name">Omkar Badadale</span>
+          <span className="hero-id-role">Data Scientist</span>
+          <span className="hero-id-status"><span className="pulse" aria-hidden="true" />Open to full-time roles</span>
+        </motion.div>
         <h1 className="hero-title">
           {['I build models that', 'know when not', 'to answer.'].map((t, i) => (
             <span className="line-mask" key={t}>
