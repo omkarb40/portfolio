@@ -6,7 +6,11 @@ import { useEffect, useRef, useState } from 'react'
 // converges, the data re-scatters into new blobs and it starts again.
 // Click to drop a new centroid. Respects prefers-reduced-motion.
 
-const COLORS = ['#3ddbb5', '#8b9cff', '#f2b950', '#f2706b', '#c79bff', '#6cc6ff', '#a6e07a']
+const PALETTES = {
+  dark: { colors: ['#3ddbb5', '#8b9cff', '#f2b950', '#f2706b', '#c79bff', '#6cc6ff', '#a6e07a'], base: [120, 130, 160], line: 0.07, dot: 0.85 },
+  light: { colors: ['#0b8f72', '#4353d1', '#b9770c', '#c83f37', '#7a45c9', '#1b7fc4', '#3f8a22'], base: [150, 158, 182], line: 0.13, dot: 0.9 },
+}
+const themeOf = () => (document.documentElement.dataset.theme === 'light' ? 'light' : 'dark')
 const N = 340
 const STEP_MS = 650
 const MAX_K = 7
@@ -35,7 +39,7 @@ function randomCentroids(k) {
   return Array.from({ length: k }, (_, i) => ({
     x: 0.35 + Math.random() * 0.6,
     y: 0.1 + Math.random() * 0.8,
-    tx: 0, ty: 0, color: COLORS[i % COLORS.length],
+    tx: 0, ty: 0, ci: i % 7,
   })).map((c) => ({ ...c, tx: c.x, ty: c.y }))
 }
 
@@ -49,6 +53,9 @@ export default function HeroField({ onStats }) {
     const ctx = canvas.getContext('2d')
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let w = 0, h = 0, dpr = 1, raf = 0, visible = true, lastStep = 0, settledAt = 0
+    let pal = PALETTES[themeOf()]
+    const mo = new MutationObserver(() => { pal = PALETTES[themeOf()]; if (reduce) draw(0) })
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
 
     const targets = makeTargets()
     const s = {
@@ -131,7 +138,7 @@ export default function HeroField({ onStats }) {
             p.y += (dy / d) * f / h
           }
         }
-        const target = p.c >= 0 && s.cents[p.c] ? hexToRgb(s.cents[p.c].color) : [120, 130, 160]
+        const target = p.c >= 0 && s.cents[p.c] ? hexToRgb(pal.colors[s.cents[p.c].ci]) : pal.base
         p.col = p.col.map((v, i) => v + (target[i] - v) * 0.1)
       }
       for (const c of s.cents) {
@@ -144,18 +151,18 @@ export default function HeroField({ onStats }) {
       for (const p of s.pts) {
         const c = s.cents[p.c]
         if (!c) continue
-        ctx.strokeStyle = `rgba(${p.col[0] | 0},${p.col[1] | 0},${p.col[2] | 0},0.07)`
+        ctx.strokeStyle = `rgba(${p.col[0] | 0},${p.col[1] | 0},${p.col[2] | 0},${pal.line})`
         ctx.beginPath(); ctx.moveTo(p.x * w, p.y * h); ctx.lineTo(c.x * w, c.y * h); ctx.stroke()
       }
       // points
       for (const p of s.pts) {
-        ctx.fillStyle = `rgba(${p.col[0] | 0},${p.col[1] | 0},${p.col[2] | 0},0.85)`
+        ctx.fillStyle = `rgba(${p.col[0] | 0},${p.col[1] | 0},${p.col[2] | 0},${pal.dot})`
         ctx.beginPath(); ctx.arc(p.x * w, p.y * h, 2.1, 0, Math.PI * 2); ctx.fill()
       }
       // centroids
       for (const c of s.cents) {
         const x = c.x * w, y = c.y * h
-        ctx.strokeStyle = c.color; ctx.lineWidth = 2
+        ctx.strokeStyle = pal.colors[c.ci]; ctx.lineWidth = 2
         ctx.beginPath(); ctx.moveTo(x - 7, y - 7); ctx.lineTo(x + 7, y + 7); ctx.moveTo(x + 7, y - 7); ctx.lineTo(x - 7, y + 7); ctx.stroke()
         ctx.globalAlpha = 0.18
         ctx.beginPath(); ctx.arc(x, y, 16, 0, Math.PI * 2); ctx.stroke()
@@ -202,9 +209,9 @@ export default function HeroField({ onStats }) {
       const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height
       if (y < 0 || y > 1) return
       if (s.cents.length >= MAX_K) s.cents.shift()
-      const used = new Set(s.cents.map((c) => c.color))
-      const color = COLORS.find((c) => !used.has(c)) || COLORS[0]
-      s.cents.push({ x, y, tx: x, ty: y, color })
+      const used = new Set(s.cents.map((c) => c.ci))
+      const ci = [0, 1, 2, 3, 4, 5, 6].find((i) => !used.has(i)) ?? 0
+      s.cents.push({ x, y, tx: x, ty: y, ci })
       s.converged = false; s.iter = 0; settledAt = 0
       setHint(false)
       if (reduce) { for (let i = 0; i < 30 && !s.converged; i++) lloyd(); draw(0) }
@@ -215,7 +222,7 @@ export default function HeroField({ onStats }) {
     host.addEventListener('click', onClick)
 
     return () => {
-      cancelAnimationFrame(raf); ro.disconnect(); io.disconnect()
+      cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); mo.disconnect()
       host.removeEventListener('pointermove', onMove)
       host.removeEventListener('pointerleave', onLeave)
       host.removeEventListener('click', onClick)

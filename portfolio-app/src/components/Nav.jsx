@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'motion/react'
 import { navSections } from '../data/portfolio'
 import useActiveSection from '../hooks/useActiveSection'
+import ThemeToggle from './ThemeToggle'
 
 export default function Nav({ onOpenPalette }) {
   const [open, setOpen] = useState(false)
@@ -25,6 +26,7 @@ export default function Nav({ onOpenPalette }) {
           <button className="cmdk-btn" onClick={onOpenPalette} aria-label="Search the site">
             <i className="fas fa-magnifying-glass" aria-hidden="true" /><kbd>⌘K</kbd>
           </button>
+          <ThemeToggle />
           <button className="nav-toggle" onClick={() => setOpen((o) => !o)} aria-label="Menu" aria-expanded={open}>
             <i className={`fas ${open ? 'fa-xmark' : 'fa-bars'}`} aria-hidden="true" />
           </button>
