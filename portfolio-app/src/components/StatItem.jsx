@@ -1,11 +1,11 @@
 import useCountUp from '../hooks/useCountUp'
 
 export default function StatItem({ value, suffix, label }) {
-  const [ref, display] = useCountUp(value, { suffix })
+  const [ref, display] = useCountUp(value, { suffix, duration: 1400 })
   return (
-    <div className="stat">
-      <div className="num" ref={ref}>{display}</div>
-      <div className="label">{label}</div>
+    <div className="fact">
+      <dd className="num" ref={ref}>{display}</dd>
+      <dt>{label}</dt>
     </div>
   )
 }

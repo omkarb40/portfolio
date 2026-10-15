@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 // Animates a number from 0 to `target` once the element scrolls into view.
-// Cleans up its rAF loop on unmount so it can never write to a stale node —
+// Cleans up its rAF loop on unmount so it can never write to a stale node:
 // this is the pattern that avoids the "leftover text" bug from the vanilla-JS version.
 export default function useCountUp(target, { duration = 1200, suffix = '' } = {}) {
   const ref = useRef(null)

@@ -1,8 +1,9 @@
 export default function Footer() {
   return (
-    <footer>
-      <div className="wrap">
-        <div>&copy; {new Date().getFullYear()} Omkar Badadale. Built with React + Vite.</div>
+    <footer className="footer">
+      <div className="wrap footer-inner">
+        <span>© {new Date().getFullYear()} Omkar Badadale</span>
+        <span>Built with React and Motion. The clusters at the top are real k-means.</span>
       </div>
     </footer>
   )
